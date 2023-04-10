@@ -1,11 +1,14 @@
 import pygame
 from random import choice
+import sys
 
 from settings import *
 from menu import Menu
 from player import Player
-from alien import Alien
+from alien import *
 from weapon import Laser
+
+temp = ['blue_alien', 'orange_alien', 'pink_alien']
 
 class Game:
     def __init__(self) -> None:
@@ -19,7 +22,7 @@ class Game:
         self.player = pygame.sprite.GroupSingle(self.player_sprite)
         self.aliens = pygame.sprite.Group()
         self.aliens_laser = pygame.sprite.Group()
-        self.aliens_setup(6, 6)
+        self.aliens_setup(2, 2)
         self.aliens_direction = ALIENS_SPEED
         
         self.background = pygame.image.load(PATH_FOR_GAME_BACKGROUND)
@@ -36,51 +39,61 @@ class Game:
     
        
     def aliens_setup(self, rows, columns):
+        self.aliens.add(ShooterAlien(100, 100, self))
+        self.aliens.add(OneShootAlien(400, 100, self))
         for row_index, row_item in enumerate(range(rows)):
             for columns_index, columns_item in enumerate(range(columns)):
                 x = columns_index * 50 + WIDTH//3
                 y = row_index * 40 + 200
-                alien_sprite = Alien(x, y)
+                alien_sprite = Alien(x, y, self)
                 self.aliens.add(alien_sprite)
+        self.aliens.add(SpeedAlien(400, 400, self))
     
     def aliens_cheker(self):
         for alien in self.aliens.sprites():
-            if alien.rect.right >= WIDTH:
+            if alien.rect.right >= WIDTH and alien.type not in temp:
                 self.aliens_direction = -ALIENS_SPEED
                 self.aliens_move_down()
-            elif alien.rect.left <= 0:
+            elif alien.rect.left <= 0 and alien.type not in temp:
                 self.aliens_direction = ALIENS_SPEED
                 self.aliens_move_down()
     
     def check_destroy(self):
         if self.player.sprite.weapon:
             for laser in self.player.sprite.weapon:
-                if pygame.sprite.spritecollide(laser, self.aliens, True):
+                aliens_hit = pygame.sprite.spritecollide(laser, self.aliens, True)
+                if aliens_hit:
+                    for i in aliens_hit:
+                        self.player_sprite.score += i.score
                     laser.kill()
-                    self.player_sprite.score +=1
                     
         if self.aliens_laser:
             for alien_lasers in self.aliens_laser:
                 if pygame.sprite.spritecollide(alien_lasers, self.player, False):
                     alien_lasers.kill()
-                    self.player_sprite.lives -= 1
-                    if self.player_sprite.lives <= 1:
+                    self.player_sprite.lives -= alien_lasers.hp_damage
+                    if self.player_sprite.lives <= -10000:
                         pygame.quit()
+                        sys.exit()
         
         if self.aliens:
             for alien in self.aliens:
                 if pygame.sprite.spritecollide(alien, self.player, False):
                     pygame.quit()
+                    sys.exit()
     
     def aliens_shoot(self):
         if self.aliens.sprites():
             random_alien = choice(self.aliens.sprites())
+            while random_alien.type == 'orange_alien':
+                random_alien = choice(self.aliens.sprites())
             alien_shoot = Laser(random_alien.rect.center, True)
             self.aliens_laser.add(alien_shoot)
     
     def aliens_move_down(self):
         for alien in self.aliens.sprites():
-            alien.rect.y += ALIENS_SPEED*2
+            if alien.type == 'white_alien':
+                alien.rect.y += ALIENS_SPEED*2
          
     def play_game(self):
         ALIENS_SHOOT = pygame.USEREVENT + 1
@@ -109,3 +122,4 @@ class Game:
             self.aliens_laser.draw(self.screen)
             pygame.display.update()
         pygame.quit()
+        sys.exit()
