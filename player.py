@@ -35,6 +35,7 @@ class Player(pygame.sprite.Sprite):
         
         if keys[pygame.K_SPACE] and self.ready_for_shoot:
             self.shoot()
+            self.shoot_sound()
             self.ready_for_shoot = False
             self.shoot_time = pygame.time.get_ticks()
             
@@ -61,8 +62,14 @@ class Player(pygame.sprite.Sprite):
             self.screen.blit(self.lives_image, (x, 20))
         
     def shoot(self):
-        self.weapon.add(Laser(self.rect.center))      
-    
+        self.weapon.add(Laser(self.rect.center))
+        
+    def shoot_sound(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load(SOUND_FOR_SHOOT)
+        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.play()
+
     def update(self):
        self.handle_input() 
        self.border()

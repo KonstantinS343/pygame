@@ -28,11 +28,18 @@ class Game:
     def run_game(self):
        self.menu.start_main_menu() 
        
+    def backgroud_music(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load(SOUND_FOR_GAME_BACKGROUD)
+        pygame.mixer.music.set_volume(0.1)
+        pygame.mixer.music.play()
+    
+       
     def aliens_setup(self, rows, columns):
         for row_index, row_item in enumerate(range(rows)):
             for columns_index, columns_item in enumerate(range(columns)):
                 x = columns_index * 50 + WIDTH//3
-                y = row_index * 40 + 60
+                y = row_index * 40 + 200
                 alien_sprite = Alien(x, y)
                 self.aliens.add(alien_sprite)
     
@@ -73,12 +80,12 @@ class Game:
     
     def aliens_move_down(self):
         for alien in self.aliens.sprites():
-            alien.rect.y += 2
+            alien.rect.y += ALIENS_SPEED*2
          
     def play_game(self):
         ALIENS_SHOOT = pygame.USEREVENT + 1
         pygame.time.set_timer(ALIENS_SHOOT, 600)
-        
+        self.backgroud_music()
         while self.run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -90,7 +97,7 @@ class Game:
             self.screen.blit(self.background,(0, 0))
             self.player.sprite.weapon.draw(self.screen)
             self.player.draw(self.screen)
-            self.aliens.draw(self.screen )
+            self.aliens.draw(self.screen)
             self.aliens.update(self.aliens_direction)
             self.aliens_cheker()
             self.aliens_laser.update()
