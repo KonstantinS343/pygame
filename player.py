@@ -4,11 +4,18 @@ from settings import *
 from weapon import Laser
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, position, border_width) -> None:
+    def __init__(self, position, border_width, screen) -> None:
         super().__init__()
         self.image = pygame.image.load(PATH_FOR_PLAYER).convert_alpha()
         self.image = pygame.transform.scale(self.image, (40, 40))
         self.rect = self.image.get_rect(midbottom = position)
+        self.screen = screen
+        self.score = 0
+        self.font = pygame.font.Font('Pixeled.ttf')
+        self.lives = 4
+        self.lives_image = pygame.image.load(PATH_FOR_PLAYER).convert_alpha()
+        self.lives_image = pygame.transform.scale(self.lives_image, (20, 20))
+        self.lives_image_start_draw_x = WIDTH - (self.lives_image.get_size()[0]*3 + 30)
         
         self.border_width = border_width
         self.speed = PLAYER_SPEED
@@ -42,6 +49,16 @@ class Player(pygame.sprite.Sprite):
             self.rect.left = 0
         if self.rect.left >= self.border_width-40:
             self.rect.left = self.border_width-40  
+      
+    def display_score(self):
+        score_image = self.font.render(f'score: {self.score}', False, 'white')  
+        score_rect = score_image.get_rect(topleft = (0, 0))
+        self.screen.blit(score_image, score_rect)
+        
+    def display_lives(self):
+        for live in range(self.lives - 1):
+            x = self.lives_image_start_draw_x + (live*self.lives_image.get_size()[0] + 20)
+            self.screen.blit(self.lives_image, (x, 20))
         
     def shoot(self):
         self.weapon.add(Laser(self.rect.center))      

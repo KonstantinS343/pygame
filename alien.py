@@ -6,3 +6,6 @@ class Alien(pygame.sprite.Sprite):
         self.image = pygame.image.load(PATH_FOR_WHITE_ALIEN)
         self.image = pygame.transform.scale(self.image, (40, 40))
         self.rect = self.image.get_rect(topleft = (x, y))
+        
+    def update(self, aliens_direction):
+        self.rect.x += aliens_direction

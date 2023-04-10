@@ -35,7 +35,7 @@ class Menu:
         self.custom_theme.background_color = self.background_image
         self.custom_theme.widget_font = self.font
         self.custom_theme.widget_font_size = 30 
-        self.custom_theme.widget_padding = (30, 0, 30, 10)
+        self.custom_theme.widget_padding = (20, 0, 20, 10)
         self.custom_theme.title_bar_style = pygame_menu.widgets.MENUBAR_STYLE_TITLE_ONLY_DIAGONAL
     
     def create_them_for_other_window(self, **kwargs):
