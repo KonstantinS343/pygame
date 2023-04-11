@@ -42,6 +42,7 @@ class Game:
         self.aliens.add(ShooterAlien(100, 100, self))
         self.aliens.add(SniperAlien(200, 200, self))
         self.aliens.add(OneShootAlien(400, 100, self))
+        self.aliens.add(BossAlien(400, 400, self))
         for row_index, row_item in enumerate(range(rows)):
             for columns_index, columns_item in enumerate(range(columns)):
                 x = columns_index * 50 + WIDTH//3
@@ -62,10 +63,13 @@ class Game:
     def check_destroy(self):
         if self.player.sprite.weapon:
             for laser in self.player.sprite.weapon:
-                aliens_hit = pygame.sprite.spritecollide(laser, self.aliens, True)
+                aliens_hit = pygame.sprite.spritecollide(laser, self.aliens, False)
                 if aliens_hit:
                     for i in aliens_hit:
                         self.player_sprite.score += i.score
+                        i.hp -= 1
+                        if i.hp <= 0:
+                            pygame.sprite.spritecollide(laser, self.aliens, True)
                     laser.kill()
                     
         if self.aliens_laser:
