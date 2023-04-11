@@ -8,8 +8,6 @@ from player import Player
 from alien import *
 from weapon import Laser
 
-temp = ['blue_alien', 'orange_alien', 'pink_alien']
-
 class Game:
     def __init__(self) -> None:
         pygame.init()
@@ -40,9 +38,12 @@ class Game:
     def aliens_setup(self, rows, columns):
         self.aliens.add(ShooterAlien(100, 100, self))
         self.aliens.add(SniperAlien(200, 200, self))
+        self.aliens.add(FinalBossAlien(100, 300, self))
         self.aliens.add(OneShootAlien(400, 100, self))
         self.aliens.add(BossAlien(400, 400, self))
         self.aliens.add(HardAlien(50, 50, self))
+        self.aliens.add(HaardSpeedAlien(500,500, self))
+        self.aliens.add(LiveMeetAlien(600,500, self))
         for row_index, row_item in enumerate(range(rows)):
             for columns_index, columns_item in enumerate(range(columns)):
                 x = columns_index * 50 + WIDTH//3
@@ -72,9 +73,9 @@ class Game:
                 aliens_hit = pygame.sprite.spritecollide(laser, self.aliens, False)
                 if aliens_hit:
                     for i in aliens_hit:
-                        self.player_sprite.score += i.score
                         i.hp -= 1
                         if i.hp <= 0:
+                            self.player_sprite.score += i.score
                             pygame.sprite.spritecollide(laser, self.aliens, True)
                     laser.kill()
                     
@@ -94,15 +95,20 @@ class Game:
                     sys.exit()
     
     def aliens_shoot(self):
+        alien = False
         if self.aliens.sprites():
             random_alien = choice(self.aliens.sprites())
-            while random_alien.type == 'orange_alien':
-                random_alien = choice(self.aliens.sprites())
-            alien_shoot = Laser(random_alien.rect.center, True)
-            self.aliens_laser.add(alien_shoot)
+            for i in self.aliens.sprites():
+                if i.type == 'white_alien' or i.type == 'purple_alien':
+                    alien = True
+            if alien:
+                while random_alien.type != 'white_alien' and random_alien.type != 'purple_alien':
+                    random_alien = choice(self.aliens.sprites())
+                alien_shoot = Laser(random_alien.rect.center, True)
+                self.aliens_laser.add(alien_shoot)
     
     def aliens_move_down(self, alien):
-        if alien.type == 'white_alien':
+        if alien.type == 'white_alien' or alien.type == 'blue_alien' or alien.type == 'purple_alien' or alien.type == 'dark_blue_alien':
             alien.rect.y += ALIENS_SPEED*2
             
          

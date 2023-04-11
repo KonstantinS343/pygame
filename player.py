@@ -22,7 +22,7 @@ class Player(pygame.sprite.Sprite):
         
         self.ready_for_shoot = True
         self.shoot_time = 0
-        self.shoot_cooldown = 600
+        self.shoot_cooldown = 1
         self.weapon = pygame.sprite.Group()
     
     def handle_input(self):
