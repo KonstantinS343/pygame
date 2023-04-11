@@ -123,6 +123,7 @@ class BossAlien(pygame.sprite.Sprite):
         self.type = 'yellow_alien'
         self.score = 100
         self.hp = 3
+        self.direction = 1
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_BOSS_ALIEN)
         self.shoot_cooldown = 3000
@@ -138,6 +139,7 @@ class BossAlien(pygame.sprite.Sprite):
             self.ready_shoot = False
             self.shoot_time = pygame.time.get_ticks()
         self.recharge()
+        self.rect.x += self.direction
     
     def recharge(self):
         if not self.ready_shoot:

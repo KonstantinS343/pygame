@@ -54,16 +54,16 @@ class Game:
     def aliens_cheker(self):
         for alien in self.aliens.sprites():
             if alien.rect.right >= WIDTH:
-                alien.direction = -ALIENS_SPEED
+                alien.direction = -alien.direction if alien.direction > 0 else alien.direction
                 for i in self.aliens.sprites():
                     if i.type == alien.type:
-                        i.direction = -ALIENS_SPEED
+                        i.direction = -alien.direction if alien.direction > 0 else alien.direction
                         self.aliens_move_down(i)
             elif alien.rect.left <= 0:
-                alien.direction = ALIENS_SPEED
+                alien.direction = abs(alien.direction)
                 for i in self.aliens.sprites():
                     if i.type == alien.type:
-                        i.direction = ALIENS_SPEED
+                        i.direction = abs(alien.direction)
                         self.aliens_move_down(i)
     
     def check_destroy(self):
