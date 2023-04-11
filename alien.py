@@ -24,7 +24,7 @@ class ShooterAlien(pygame.sprite.Sprite):
         self.type = 'orange_alien'
         self.game = game_object
         self.score = 5
-        self.hp = 1
+        self.hp = 2
         self.image = pygame.image.load(PATH_FOR_ORANGE_ALIEN)
         self.shoot_cooldown = 1000
         self.ready_shoot = True
@@ -51,7 +51,7 @@ class SpeedAlien(pygame.sprite.Sprite):
         super().__init__()
         self.type = 'blue_alien'
         self.score = 3
-        self.hp = 1
+        self.hp = 3
         self.direction = ALIENS_SPEED
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_BLUE_ALIEN)
@@ -66,7 +66,7 @@ class OneShootAlien(pygame.sprite.Sprite):
         super().__init__()
         self.type = 'pink_alien'
         self.score = 10
-        self.hp = 1
+        self.hp = 3
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_PINK_ALIEN)
         self.shoot_cooldown = 2000
@@ -94,7 +94,7 @@ class SniperAlien(pygame.sprite.Sprite):
         super().__init__()
         self.type = 'red_alien'
         self.score = 8
-        self.hp = 1
+        self.hp = 3
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_RED_ALIEN)
         self.shoot_cooldown = 3000
@@ -122,7 +122,7 @@ class BossAlien(pygame.sprite.Sprite):
         super().__init__()
         self.type = 'yellow_alien'
         self.score = 100
-        self.hp = 3
+        self.hp = 5
         self.direction = 1
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_BOSS_ALIEN)
@@ -167,7 +167,7 @@ class HaardSpeedAlien(pygame.sprite.Sprite):
         super().__init__()
         self.type = 'dark_blue_alien'
         self.score = 6
-        self.hp = 2
+        self.hp = 3
         self.direction = ALIENS_SPEED
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_DARK_BLUE_ALIEN)
@@ -193,7 +193,7 @@ class FinalBossAlien(pygame.sprite.Sprite):
         super().__init__()
         self.type = 'final_alien'
         self.score = 1000
-        self.hp = 5
+        self.hp = 30
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_FINAL_BOSS_ALIEN)
         self.shoot_cooldown = 1000

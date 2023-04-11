@@ -1,7 +1,7 @@
 import pygame
 
 from settings import *
-from weapon import Laser
+from weapon import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, position, border_width, screen) -> None:
@@ -22,7 +22,7 @@ class Player(pygame.sprite.Sprite):
         
         self.ready_for_shoot = True
         self.shoot_time = 0
-        self.shoot_cooldown = 1
+        self.shoot_cooldown = 600
         self.weapon = pygame.sprite.Group()
     
     def handle_input(self):
@@ -62,7 +62,7 @@ class Player(pygame.sprite.Sprite):
             self.screen.blit(self.lives_image, (x, 20))
         
     def shoot(self):
-        self.weapon.add(Laser(self.rect.center))
+        self.weapon.add(DoubleLaser(self.rect.center))
         
     def shoot_sound(self):
         pygame.mixer.init()

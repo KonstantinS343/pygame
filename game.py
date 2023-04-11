@@ -73,7 +73,7 @@ class Game:
                 aliens_hit = pygame.sprite.spritecollide(laser, self.aliens, False)
                 if aliens_hit:
                     for i in aliens_hit:
-                        i.hp -= 1
+                        i.hp -= laser.hp_damage
                         if i.hp <= 0:
                             self.player_sprite.score += i.score
                             pygame.sprite.spritecollide(laser, self.aliens, True)
