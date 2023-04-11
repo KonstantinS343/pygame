@@ -1,6 +1,8 @@
 import pygame
 from random import choice
 import sys
+import json
+import time
 
 from game.settings import *
 from game.menu import Menu
@@ -20,10 +22,11 @@ class Game:
         self.player = pygame.sprite.GroupSingle(self.player_sprite)
         self.aliens = pygame.sprite.Group()
         self.aliens_laser = pygame.sprite.Group()
-        self.aliens_setup(2, 2)
         
         self.background = pygame.image.load(PATH_FOR_GAME_BACKGROUND)
         self.run = True
+        self.wave = 0
+        self.font = pygame.font.Font(SCORE_FONT, 20)
         
     def run_game(self):
        self.menu.start_main_menu() 
@@ -35,22 +38,11 @@ class Game:
         pygame.mixer.music.play()
     
        
-    def aliens_setup(self, rows, columns):
-        self.aliens.add(ShooterAlien(100, 100, self))
-        self.aliens.add(SniperAlien(200, 200, self))
-        self.aliens.add(FinalBossAlien(100, 300, self))
-        self.aliens.add(OneShootAlien(400, 100, self))
-        self.aliens.add(BossAlien(400, 400, self))
-        self.aliens.add(HardAlien(50, 50, self))
-        self.aliens.add(HaardSpeedAlien(500,500, self))
-        self.aliens.add(LiveMeetAlien(600,500, self))
-        for row_index, row_item in enumerate(range(rows)):
-            for columns_index, columns_item in enumerate(range(columns)):
-                x = columns_index * 50 + WIDTH//3
-                y = row_index * 40 + 200
-                alien_sprite = Alien(x, y, self)
-                self.aliens.add(alien_sprite)
-        self.aliens.add(SpeedAlien(400, 400, self))
+    def aliens_setup(self):
+        with open('game/waves_controller.json', 'r') as file:
+            aliens = json.load(file)
+        for i in aliens[0]['Wave1']:
+            self.aliens.add(Alien(i[1], i[2], self))
     
     def aliens_cheker(self):
         for alien in self.aliens.sprites():
@@ -108,9 +100,23 @@ class Game:
                 self.aliens_laser.add(alien_shoot)
     
     def aliens_move_down(self, alien):
-        if alien.type == 'white_alien' or alien.type == 'blue_alien' or alien.type == 'purple_alien' or alien.type == 'dark_blue_alien':
-            alien.rect.y += ALIENS_SPEED*2
+        if alien.type == 'white_alien' or alien.type == 'blue_alien' or \
+            alien.type == 'purple_alien' or alien.type == 'dark_blue_alien':
+            alien.rect.y += ALIENS_SPEED*3
             
+    def waves(self):
+        if not self.aliens:
+            self.wave += 1
+            self.aliens_setup()
+            for i in self.aliens_laser:
+                i.kill()
+            for i in self.player_sprite.weapon:
+                i.kill()
+            
+    def display_waves(self):
+        number_waves = self.font.render(f'WAVE {self.wave}', False, 'white')
+        waves_rect = number_waves.get_rect(topleft = (200, 0))
+        self.screen.blit(number_waves, waves_rect)
          
     def play_game(self):
         ALIENS_SHOOT = pygame.USEREVENT + 1
@@ -122,16 +128,24 @@ class Game:
                     self.run = False
                 if event.type == ALIENS_SHOOT:
                     self.aliens_shoot()
-            self.clock.tick(60)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_w:
+                         self.waves()
+            self.clock.tick(FPS)
             
             self.screen.blit(self.background,(0, 0))
             self.player.sprite.weapon.draw(self.screen)
             self.player.draw(self.screen)
+            
+            self.display_waves
             self.aliens.draw(self.screen)
+            
             self.aliens.update()
             self.aliens_cheker()
             self.aliens_laser.update()
+            
             self.check_destroy()
+            
             self.player_sprite.display_lives()
             self.player_sprite.display_score()
             

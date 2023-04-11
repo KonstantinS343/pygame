@@ -11,7 +11,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(midbottom = position)
         self.screen = screen
         self.score = 0
-        self.font = pygame.font.Font(SCORE_FONT)
+        self.font = pygame.font.Font(SCORE_FONT, 20)
         self.lives = 4
         self.lives_image = pygame.image.load(PATH_FOR_PLAYER).convert_alpha()
         self.lives_image = pygame.transform.scale(self.lives_image, (20, 20))
@@ -22,7 +22,7 @@ class Player(pygame.sprite.Sprite):
         
         self.ready_for_shoot = True
         self.shoot_time = 0
-        self.shoot_cooldown = 600
+        self.shoot_cooldown = 1
         self.weapon = pygame.sprite.Group()
     
     def handle_input(self):
@@ -52,7 +52,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.left = self.border_width-40  
       
     def display_score(self):
-        score_image = self.font.render(f'score: {self.score}', False, 'white')  
+        score_image = self.font.render(f'SCORE: {self.score}', False, 'white')  
         score_rect = score_image.get_rect(topleft = (0, 0))
         self.screen.blit(score_image, score_rect)
         

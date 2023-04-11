@@ -17,6 +17,9 @@ class Laser(pygame.sprite.Sprite):
             self.speed = -speed
         else:
             self.speed = speed
+    
+    def destroy(self):
+        self.kill()
         
     def destoy_bullet(self):
         if self.rect.y <= -50 or self.rect.y >= HEIGHT + 50:
@@ -86,6 +89,9 @@ class DoubleLaser(pygame.sprite.Sprite):
     def destoy_bullet(self):
         if self.rect.y <= -50 or self.rect.y >= HEIGHT + 50:
             self.kill()
+    
+    def destroy(self):
+        self.kill()
         
     def update(self):
         self.rect.y -= self.speed

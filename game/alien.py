@@ -12,7 +12,7 @@ class Alien(pygame.sprite.Sprite):
         self.direction = ALIENS_SPEED
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_WHITE_ALIEN)
-        self.image = pygame.transform.scale(self.image, (40, 40))
+        self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect(topleft = (x, y))
         
     def update(self):
@@ -29,7 +29,7 @@ class ShooterAlien(pygame.sprite.Sprite):
         self.shoot_cooldown = 1000
         self.ready_shoot = True
         self.shoot_time = 0
-        self.image = pygame.transform.scale(self.image, (40, 40))
+        self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect(topleft = (x, y))
         
     def update(self):
@@ -55,7 +55,7 @@ class SpeedAlien(pygame.sprite.Sprite):
         self.direction = ALIENS_SPEED
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_BLUE_ALIEN)
-        self.image = pygame.transform.scale(self.image, (40, 40))
+        self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect(topleft = (x, y))
         
     def update(self):
@@ -72,7 +72,7 @@ class OneShootAlien(pygame.sprite.Sprite):
         self.shoot_cooldown = 2000
         self.ready_shoot = True
         self.shoot_time = 0
-        self.image = pygame.transform.scale(self.image, (40, 40))
+        self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect(topleft = (x, y))
         
     def update(self):
@@ -100,7 +100,7 @@ class SniperAlien(pygame.sprite.Sprite):
         self.shoot_cooldown = 3000
         self.ready_shoot = True
         self.shoot_time = 0
-        self.image = pygame.transform.scale(self.image, (40, 40))
+        self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect(topleft = (x, y))
         
     def update(self):
@@ -129,7 +129,7 @@ class BossAlien(pygame.sprite.Sprite):
         self.shoot_cooldown = 3000
         self.ready_shoot = True
         self.shoot_time = 0
-        self.image = pygame.transform.scale(self.image, (40, 40))
+        self.image = pygame.transform.scale(self.image, (70, 70))
         self.rect = self.image.get_rect(topleft = (x, y))
         
     def update(self):
@@ -156,7 +156,7 @@ class HardAlien(pygame.sprite.Sprite):
         self.game = game_object
         self.direction = ALIENS_SPEED
         self.image = pygame.image.load(PATH_FOR_PURPLE_ALIEN)
-        self.image = pygame.transform.scale(self.image, (40, 40))
+        self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect(topleft = (x, y))
         
     def update(self):
@@ -171,7 +171,7 @@ class HaardSpeedAlien(pygame.sprite.Sprite):
         self.direction = ALIENS_SPEED
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_DARK_BLUE_ALIEN)
-        self.image = pygame.transform.scale(self.image, (40, 40))
+        self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect(topleft = (x, y))
         
     def update(self):
@@ -185,7 +185,7 @@ class LiveMeetAlien(pygame.sprite.Sprite):
         self.hp = 2
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_GREEN_ALIEN)
-        self.image = pygame.transform.scale(self.image, (40, 40))
+        self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect(topleft = (x, y))
         
 class FinalBossAlien(pygame.sprite.Sprite):
@@ -199,7 +199,7 @@ class FinalBossAlien(pygame.sprite.Sprite):
         self.shoot_cooldown = 1000
         self.ready_shoot = True
         self.shoot_time = 0
-        self.image = pygame.transform.scale(self.image, (60, 60))
+        self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect(topleft = (x, y))
         
     def update(self):

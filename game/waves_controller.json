@@ -1,0 +1,7 @@
+[
+    {
+        "Wave1":  [["white_alien", 200, 250],["white_alien", 250, 250], ["white_alien", 300, 250], ["white_alien", 350, 250], ["white_alien", 400, 250], 
+        ["white_alien", 200, 300], ["white_alien", 250, 300], ["white_alien", 300, 300], ["white_alien", 350, 300], ["white_alien", 400, 300],
+        ["white_alien", 200, 350], ["white_alien", 250, 350], ["white_alien", 300, 350], ["white_alien", 350, 350], ["white_alien", 400, 350]]
+    }
+]
