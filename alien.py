@@ -9,13 +9,14 @@ class Alien(pygame.sprite.Sprite):
         self.type = 'white_alien'
         self.score = 1
         self.hp = 1
+        self.direction = ALIENS_SPEED
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_WHITE_ALIEN)
         self.image = pygame.transform.scale(self.image, (40, 40))
         self.rect = self.image.get_rect(topleft = (x, y))
         
-    def update(self, aliens_direction):
-        self.rect.x += aliens_direction
+    def update(self):
+        self.rect.x += self.direction
         
 class ShooterAlien(pygame.sprite.Sprite):
     def __init__(self, x, y, game_object) -> None:
@@ -31,7 +32,7 @@ class ShooterAlien(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (40, 40))
         self.rect = self.image.get_rect(topleft = (x, y))
         
-    def update(self, aliens_direction):
+    def update(self):
         alien_shoot = LaserComboDamage(self.rect.center, True)
         if self.ready_shoot:
             self.game.aliens_laser.add(alien_shoot)
@@ -51,13 +52,14 @@ class SpeedAlien(pygame.sprite.Sprite):
         self.type = 'blue_alien'
         self.score = 3
         self.hp = 1
+        self.direction = ALIENS_SPEED
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_BLUE_ALIEN)
         self.image = pygame.transform.scale(self.image, (40, 40))
         self.rect = self.image.get_rect(topleft = (x, y))
         
-    def update(self, aliens_direction):
-        self.rect.x += aliens_direction*3
+    def update(self):
+        self.rect.x += self.direction*3
     
 class OneShootAlien(pygame.sprite.Sprite):
     def __init__(self, x, y, game_object) -> None:
@@ -73,7 +75,7 @@ class OneShootAlien(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (40, 40))
         self.rect = self.image.get_rect(topleft = (x, y))
         
-    def update(self, aliens_direction):
+    def update(self):
         alien_shoot = OneShootLaser(self.rect.center, True)
         if self.ready_shoot:
             self.game.aliens_laser.add(alien_shoot)
@@ -101,7 +103,7 @@ class SniperAlien(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (40, 40))
         self.rect = self.image.get_rect(topleft = (x, y))
         
-    def update(self, aliens_direction):
+    def update(self):
         alien_shoot = Laser(self.rect.center, True, 12)
         if self.ready_shoot:
             self.game.aliens_laser.add(alien_shoot)
@@ -118,7 +120,7 @@ class SniperAlien(pygame.sprite.Sprite):
 class BossAlien(pygame.sprite.Sprite):
     def __init__(self, x, y, game_object) -> None:
         super().__init__()
-        self.type = 'red_alien'
+        self.type = 'yellow_alien'
         self.score = 100
         self.hp = 3
         self.game = game_object
@@ -129,7 +131,7 @@ class BossAlien(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (40, 40))
         self.rect = self.image.get_rect(topleft = (x, y))
         
-    def update(self, aliens_direction):
+    def update(self):
         alien_shoot = LaserComboDamage(self.rect.center, True)
         if self.ready_shoot:
             self.game.aliens_laser.add(alien_shoot)
@@ -143,3 +145,17 @@ class BossAlien(pygame.sprite.Sprite):
             if current_time - self.shoot_time >= self.shoot_cooldown:
                 self.ready_shoot = True
                 
+class HardAlien(pygame.sprite.Sprite):
+    def __init__(self, x, y, game_object) -> None:
+        super().__init__()
+        self.type = 'purple_alien'
+        self.score = 3
+        self.hp = 2
+        self.game = game_object
+        self.direction = ALIENS_SPEED
+        self.image = pygame.image.load(PATH_FOR_PURPLE_ALIEN)
+        self.image = pygame.transform.scale(self.image, (40, 40))
+        self.rect = self.image.get_rect(topleft = (x, y))
+        
+    def update(self):
+        self.rect.x += self.direction

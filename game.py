@@ -23,7 +23,6 @@ class Game:
         self.aliens = pygame.sprite.Group()
         self.aliens_laser = pygame.sprite.Group()
         self.aliens_setup(2, 2)
-        self.aliens_direction = ALIENS_SPEED
         
         self.background = pygame.image.load(PATH_FOR_GAME_BACKGROUND)
         self.run = True
@@ -43,6 +42,7 @@ class Game:
         self.aliens.add(SniperAlien(200, 200, self))
         self.aliens.add(OneShootAlien(400, 100, self))
         self.aliens.add(BossAlien(400, 400, self))
+        self.aliens.add(HardAlien(50, 50, self))
         for row_index, row_item in enumerate(range(rows)):
             for columns_index, columns_item in enumerate(range(columns)):
                 x = columns_index * 50 + WIDTH//3
@@ -53,12 +53,18 @@ class Game:
     
     def aliens_cheker(self):
         for alien in self.aliens.sprites():
-            if alien.rect.right >= WIDTH and alien.type not in temp:
-                self.aliens_direction = -ALIENS_SPEED
-                self.aliens_move_down()
-            elif alien.rect.left <= 0 and alien.type not in temp:
-                self.aliens_direction = ALIENS_SPEED
-                self.aliens_move_down()
+            if alien.rect.right >= WIDTH:
+                alien.direction = -ALIENS_SPEED
+                for i in self.aliens.sprites():
+                    if i.type == alien.type:
+                        i.direction = -ALIENS_SPEED
+                        self.aliens_move_down(i)
+            elif alien.rect.left <= 0:
+                alien.direction = ALIENS_SPEED
+                for i in self.aliens.sprites():
+                    if i.type == alien.type:
+                        i.direction = ALIENS_SPEED
+                        self.aliens_move_down(i)
     
     def check_destroy(self):
         if self.player.sprite.weapon:
@@ -95,10 +101,10 @@ class Game:
             alien_shoot = Laser(random_alien.rect.center, True)
             self.aliens_laser.add(alien_shoot)
     
-    def aliens_move_down(self):
-        for alien in self.aliens.sprites():
-            if alien.type == 'white_alien':
-                alien.rect.y += ALIENS_SPEED*2
+    def aliens_move_down(self, alien):
+        if alien.type == 'white_alien':
+            alien.rect.y += ALIENS_SPEED*2
+            
          
     def play_game(self):
         ALIENS_SHOOT = pygame.USEREVENT + 1
@@ -116,7 +122,7 @@ class Game:
             self.player.sprite.weapon.draw(self.screen)
             self.player.draw(self.screen)
             self.aliens.draw(self.screen)
-            self.aliens.update(self.aliens_direction)
+            self.aliens.update()
             self.aliens_cheker()
             self.aliens_laser.update()
             self.check_destroy()
