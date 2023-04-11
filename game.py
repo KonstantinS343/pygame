@@ -40,6 +40,7 @@ class Game:
        
     def aliens_setup(self, rows, columns):
         self.aliens.add(ShooterAlien(100, 100, self))
+        self.aliens.add(SniperAlien(200, 200, self))
         self.aliens.add(OneShootAlien(400, 100, self))
         for row_index, row_item in enumerate(range(rows)):
             for columns_index, columns_item in enumerate(range(columns)):

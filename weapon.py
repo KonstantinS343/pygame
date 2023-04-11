@@ -2,16 +2,19 @@ import pygame
 from settings import *
 
 class Laser(pygame.sprite.Sprite):
-    def __init__(self, position, reverse = False) -> None:
+    def __init__(self, position, reverse = False, speed = False) -> None:
         super().__init__()
         self.image = pygame.Surface((4, 10))
         self.image.fill('red')
         self.hp_damage = 1
         self.rect = self.image.get_rect(center = position)
+        if not speed:
+            speed = WEAPON_SPEED
+
         if reverse:
-            self.speed = -WEAPON_SPEED
+            self.speed = -speed
         else:
-            self.speed = WEAPON_SPEED
+            self.speed = speed
         
     def destoy_bullet(self):
         if self.rect.y <= -50 or self.rect.y >= HEIGHT + 50:
