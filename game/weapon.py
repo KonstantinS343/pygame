@@ -1,5 +1,6 @@
 import pygame
-from settings import *
+
+from game.settings import *
 
 class Laser(pygame.sprite.Sprite):
     def __init__(self, position, reverse = False, speed = False) -> None:
@@ -7,6 +8,7 @@ class Laser(pygame.sprite.Sprite):
         self.image = pygame.Surface((4, 10))
         self.image.fill('red')
         self.hp_damage = 1
+        self.player_cooldown = 600
         self.rect = self.image.get_rect(center = position)
         if not speed:
             speed = WEAPON_SPEED
@@ -69,7 +71,8 @@ class DoubleLaser(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.Surface((4, 10))
         self.image.fill('red')
-        self.hp_damage = 3
+        self.hp_damage = 2
+        self.player_cooldown = 100
         self.rect = self.image.get_rect(center = position)
         
         if not speed:

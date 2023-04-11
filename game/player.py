@@ -1,7 +1,7 @@
 import pygame
 
-from settings import *
-from weapon import *
+from game.settings import *
+from game.weapon import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, position, border_width, screen) -> None:
@@ -11,7 +11,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(midbottom = position)
         self.screen = screen
         self.score = 0
-        self.font = pygame.font.Font('Pixeled.ttf')
+        self.font = pygame.font.Font(SCORE_FONT)
         self.lives = 4
         self.lives_image = pygame.image.load(PATH_FOR_PLAYER).convert_alpha()
         self.lives_image = pygame.transform.scale(self.lives_image, (20, 20))

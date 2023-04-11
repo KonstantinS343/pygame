@@ -1,7 +1,7 @@
 import pygame_menu
 from typing import *
 
-from settings import *
+from game.settings import *
 
 class Menu:
     def __init__(self, screen, table_od_records, game_object) -> None:

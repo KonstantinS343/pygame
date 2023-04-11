@@ -2,11 +2,11 @@ import pygame
 from random import choice
 import sys
 
-from settings import *
-from menu import Menu
-from player import Player
-from alien import *
-from weapon import Laser
+from game.settings import *
+from game.menu import Menu
+from game.player import Player
+from game.alien import *
+from game.weapon import Laser
 
 class Game:
     def __init__(self) -> None:
