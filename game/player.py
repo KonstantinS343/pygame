@@ -62,7 +62,7 @@ class Player(pygame.sprite.Sprite):
             self.screen.blit(self.lives_image, (x, 20))
         
     def shoot(self):
-        self.weapon.add(DoubleLaser(self.rect.center))
+        self.weapon.add(Laser(self.rect.center))
         
     def shoot_sound(self):
         pygame.mixer.init()

@@ -1,7 +1,51 @@
-[
+[   
     {
-        "Wave1":  [["white_alien", 200, 250],["white_alien", 250, 250], ["white_alien", 300, 250], ["white_alien", 350, 250], ["white_alien", 400, 250], 
-        ["white_alien", 200, 300], ["white_alien", 250, 300], ["white_alien", 300, 300], ["white_alien", 350, 300], ["white_alien", 400, 300],
-        ["white_alien", 200, 350], ["white_alien", 250, 350], ["white_alien", 300, 350], ["white_alien", 350, 350], ["white_alien", 400, 350]]
+        "Wave1":  [["white_alien", 300, 250],["white_alien", 350, 250], ["white_alien", 400, 250], ["white_alien", 450, 250], ["white_alien", 500, 250], 
+        ["white_alien", 300, 300], ["white_alien", 350, 300], ["white_alien", 400, 300], ["white_alien", 450, 300], ["white_alien", 500, 300],
+        ["white_alien", 300, 350], ["white_alien", 350, 350], ["white_alien", 400, 350], ["white_alien", 450, 350], ["white_alien", 500, 350]]
+    },
+    {
+        "Wave2":  [["orange_alien", 300, 200], ["orange_alien", 400, 200], ["orange_alien", 500, 200],
+        ["white_alien", 300, 300], ["white_alien", 350, 300], ["white_alien", 400, 300], ["white_alien", 450, 300], ["white_alien", 500, 300],
+        ["white_alien", 300, 350], ["white_alien", 350, 350], ["white_alien", 400, 350], ["white_alien", 450, 350], ["white_alien", 500, 350]]
+    },
+    {
+        "Wave3":  [["orange_alien", 300, 200], ["orange_alien", 400, 200], ["orange_alien", 500, 200],
+        ["white_alien", 300, 300], ["white_alien", 350, 300], ["white_alien", 400, 300], ["white_alien", 450, 300], ["white_alien", 500, 300],
+        ["blue_alien", 300, 350], ["blue_alien", 500, 350]]
+    },
+    {
+        "Wave4":  [["orange_alien", 300, 200], ["pink_alien", 400, 200], ["orange_alien", 500, 200],
+        ["white_alien", 300, 300], ["white_alien", 350, 300], ["white_alien", 400, 300], ["white_alien", 450, 300], ["white_alien", 500, 300],
+        ["blue_alien", 300, 350], ["blue_alien", 500, 350]]
+    },
+    {
+        "Wave5":  [["red_alien", 300, 100], ["pink_alien", 400, 200], ["red_alien", 500, 100],
+        ["white_alien", 300, 300], ["white_alien", 350, 300], ["white_alien", 400, 300], ["white_alien", 450, 300], ["white_alien", 500, 300],
+        ["blue_alien", 300, 350], ["blue_alien", 500, 350]]
+    },
+    {
+        "Wave6":  [["red_alien", 300, 100], ["pink_alien", 400, 200], ["red_alien", 500, 100],
+        ["green_alien", 300, 300], ["green_alien", 400, 300], ["green_alien", 500, 300],
+        ["blue_alien", 300, 350], ["blue_alien", 500, 350]]
+    },
+    {
+        "Wave7":  [["orange_alien", 300, 200], ["orange_alien", 400, 200], ["orange_alien", 500, 200]]
+    },
+    {
+        "Wave8":  [["blue_alien", 300, 200], ["blue_alien", 400, 200], ["blue_alien", 500, 200],
+        ["blue_alien", 300, 300], ["blue_alien", 400, 300], ["blue_alien", 500, 300]]
+    },
+    {
+        "Wave9":  [["white_alien", 300, 250],["white_alien", 350, 250], ["white_alien", 400, 250], ["white_alien", 450, 250], ["white_alien", 500, 250], 
+        ["white_alien", 300, 300], ["white_alien", 350, 300], ["white_alien", 400, 300], ["white_alien", 450, 300], ["white_alien", 500, 300],
+        ["white_alien", 300, 350], ["white_alien", 350, 350], ["white_alien", 400, 350], ["white_alien", 450, 350], ["white_alien", 500, 350],
+        ["white_alien", 300, 400], ["white_alien", 350, 400], ["white_alien", 400, 400], ["white_alien", 450, 400], ["white_alien", 500, 400],
+        ["white_alien", 300, 450], ["white_alien", 350, 450], ["white_alien", 400, 450], ["white_alien", 450, 450], ["white_alien", 500, 450]]
+    },
+    {
+        "Wave10":  [["red_alien", 300, 100], ["yellow_alien", 400, 200], ["red_alien", 500, 100],
+        ["green_alien", 300, 300], ["green_alien", 400, 300], ["green_alien", 500, 300]]
     }
+
 ]

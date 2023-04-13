@@ -26,7 +26,7 @@ class ShooterAlien(pygame.sprite.Sprite):
         self.score = 5
         self.hp = 2
         self.image = pygame.image.load(PATH_FOR_ORANGE_ALIEN)
-        self.shoot_cooldown = 1000
+        self.shoot_cooldown = 2000
         self.ready_shoot = True
         self.shoot_time = 0
         self.image = pygame.transform.scale(self.image, (50, 50))
@@ -69,7 +69,7 @@ class OneShootAlien(pygame.sprite.Sprite):
         self.hp = 3
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_PINK_ALIEN)
-        self.shoot_cooldown = 2000
+        self.shoot_cooldown = 3000
         self.ready_shoot = True
         self.shoot_time = 0
         self.image = pygame.transform.scale(self.image, (50, 50))

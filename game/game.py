@@ -41,8 +41,22 @@ class Game:
     def aliens_setup(self):
         with open('game/waves_controller.json', 'r') as file:
             aliens = json.load(file)
-        for i in aliens[0]['Wave1']:
-            self.aliens.add(Alien(i[1], i[2], self))
+        
+        for i in aliens[self.wave-1][f'Wave{self.wave}']:
+            if i[0] == 'white_alien':
+                self.aliens.add(Alien(i[1], i[2], self))
+            elif i[0] == 'orange_alien': 
+                self.aliens.add(ShooterAlien(i[1], i[2], self))
+            elif i[0] == 'blue_alien': 
+                self.aliens.add(SpeedAlien(i[1], i[2], self))
+            elif i[0] == 'pink_alien': 
+                self.aliens.add(OneShootAlien(i[1], i[2], self))
+            elif i[0] == 'red_alien': 
+                self.aliens.add(SniperAlien(i[1], i[2], self))
+            elif i[0] == 'green_alien': 
+                self.aliens.add(LiveMeetAlien(i[1], i[2], self))
+            elif i[0] == 'yellow_alien': 
+                self.aliens.add(BossAlien(i[1], i[2], self))
     
     def aliens_cheker(self):
         for alien in self.aliens.sprites():
@@ -102,7 +116,7 @@ class Game:
     def aliens_move_down(self, alien):
         if alien.type == 'white_alien' or alien.type == 'blue_alien' or \
             alien.type == 'purple_alien' or alien.type == 'dark_blue_alien':
-            alien.rect.y += ALIENS_SPEED*3
+            alien.rect.y += ALIENS_SPEED*7
             
     def waves(self):
         if not self.aliens:
@@ -130,14 +144,14 @@ class Game:
                     self.aliens_shoot()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w:
-                         self.waves()
+                        self.waves()
             self.clock.tick(FPS)
             
             self.screen.blit(self.background,(0, 0))
             self.player.sprite.weapon.draw(self.screen)
             self.player.draw(self.screen)
             
-            self.display_waves
+            self.display_waves()
             self.aliens.draw(self.screen)
             
             self.aliens.update()
