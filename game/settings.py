@@ -28,4 +28,21 @@ PATH_FOR_PURPLE_ALIEN = 'game/images/sprites/speed.png'
 PATH_FOR_DARK_BLUE_ALIEN = 'game/images/sprites/low_hp_1_shoot.png'
 PATH_FOR_GREEN_ALIEN = 'game/images/sprites/live_meet.png'
 
-HELP_TEXT = 'kfndgrklng'
+HELP_TEXT = '''There are 20 waves in the game, 
+on the 10th and 20th waves 
+there are bosses who have a lot of lives
+and a lot of damage, 
+so it's better not to get caught by them.  
+There are 10 types of monsters in total, 
+someone has a lot of damage, 
+but stands still, 
+someone is just fast, but does not shoot, 
+someone shoots very fast. Be careful.
+The controls are quite simple:
+- A movement to the left;
+- D move to the right;
+- Space bar makes a shot;
+- W starts a new wave, 
+but only if there are no enemies left on the field.
+
+Good luck.'''

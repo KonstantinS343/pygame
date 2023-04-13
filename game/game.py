@@ -90,15 +90,24 @@ class Game:
                 if pygame.sprite.spritecollide(alien_lasers, self.player, False):
                     alien_lasers.kill()
                     self.player_sprite.lives -= alien_lasers.hp_damage
-                    if self.player_sprite.lives <= -10000:
-                        pygame.quit()
-                        sys.exit()
+                    if self.player_sprite.lives <= 2:
+                        self.game_over()
+                        self.menu.menu.enable()
+                        self.menu.start_main_menu()
         
         if self.aliens:
             for alien in self.aliens:
                 if pygame.sprite.spritecollide(alien, self.player, False):
-                    pygame.quit()
-                    sys.exit()
+                    self.menu.menu.enable()
+                    self.menu.start_main_menu()
+    
+    def game_over(self):
+        game_over_message = self.font.render(f"You've lost! You score is {self.player_sprite.score}", False, 'white')
+        game_over_message_rect = game_over_message.get_rect(topleft = (200, 400))
+        self.screen.blit(self.background,(0, 0))
+        self.screen.blit(game_over_message, game_over_message_rect)
+        pygame.display.update()
+        time.sleep(3)
     
     def aliens_shoot(self):
         alien = False
@@ -131,40 +140,63 @@ class Game:
         number_waves = self.font.render(f'WAVE {self.wave}', False, 'white')
         waves_rect = number_waves.get_rect(topleft = (200, 0))
         self.screen.blit(number_waves, waves_rect)
+        
+    def exit(self):
+        font = pygame.font.Font(SCORE_FONT, 15)
+        exit_text = font.render('Exit? Press ESC for continue, or Q for exit in main menu.', False, 'white')
+        exit_rect = exit_text.get_rect(topleft = (50, 400))
+        self.screen.blit(self.background,(0, 0))
+        self.screen.blit(exit_text, exit_rect)
          
     def play_game(self):
         ALIENS_SHOOT = pygame.USEREVENT + 1
         pygame.time.set_timer(ALIENS_SHOOT, 600)
+        self.menu.menu.disable()
+        pause = False
         self.backgroud_music()
         while self.run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.run = False
-                if event.type == ALIENS_SHOOT:
+                    self.menu.menu.disable()
+                if event.type == ALIENS_SHOOT and not pause:
                     self.aliens_shoot()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w:
                         self.waves()
+                    if event.key == pygame.K_p and pause:
+                        pause = False
+                    if event.key == pygame.K_ESCAPE and not pause:
+                        pause = True
+                    if event.key == pygame.K_q and pause:
+                        self.menu.menu.enable()
+                        self.menu.start_main_menu()
+                        
             self.clock.tick(FPS)
-            
-            self.screen.blit(self.background,(0, 0))
-            self.player.sprite.weapon.draw(self.screen)
-            self.player.draw(self.screen)
-            
-            self.display_waves()
-            self.aliens.draw(self.screen)
-            
-            self.aliens.update()
-            self.aliens_cheker()
-            self.aliens_laser.update()
-            
-            self.check_destroy()
-            
-            self.player_sprite.display_lives()
-            self.player_sprite.display_score()
-            
-            self.player.update()
-            self.aliens_laser.draw(self.screen)
+                
+            if not pause:
+                self.screen.blit(self.background,(0, 0))
+                self.player.sprite.weapon.draw(self.screen)
+                self.player.draw(self.screen)
+                
+                self.display_waves()
+                
+                self.aliens.draw(self.screen)
+
+                self.aliens.update()
+                self.aliens_cheker()
+                self.aliens_laser.update()
+
+                self.check_destroy()
+
+                self.player_sprite.display_lives()
+                self.player_sprite.display_score()
+
+                self.player.update()
+                self.aliens_laser.draw(self.screen)
+            else:
+                self.exit()
+                
             pygame.display.update()
         pygame.quit()
-        sys.exit()
+        self.menu.menu._exit()
