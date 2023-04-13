@@ -1,6 +1,5 @@
 import pygame
 from random import choice
-import sys
 import json
 import time
 
