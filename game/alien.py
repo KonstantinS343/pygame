@@ -1,7 +1,7 @@
 import pygame
 
 from game.weapon import *
-from game.settings import *
+from game.config.settings import *
 
 class Alien(pygame.sprite.Sprite):
     def __init__(self, x, y, game_object) -> None:

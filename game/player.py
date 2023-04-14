@@ -1,6 +1,6 @@
 import pygame
 
-from game.settings import *
+from game.config.settings import *
 from game.weapon import *
 
 class Player(pygame.sprite.Sprite):
@@ -24,6 +24,7 @@ class Player(pygame.sprite.Sprite):
         self.shoot_time = 0
         self.shoot_cooldown = 1
         self.weapon = pygame.sprite.Group()
+        self.player_name = ''
     
     def handle_input(self):
         keys = pygame.key.get_pressed()

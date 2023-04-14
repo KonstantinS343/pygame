@@ -1,6 +1,6 @@
 import pygame
 
-from game.settings import *
+from game.config.settings import *
 
 class Laser(pygame.sprite.Sprite):
     def __init__(self, position, reverse = False, speed = False) -> None:

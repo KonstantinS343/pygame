@@ -1,13 +1,15 @@
 import pygame_menu
 from typing import *
 
-from game.settings import *
+from game.config.settings import *
+from game.config.table_records import Table
 
 class Menu:
     def __init__(self, screen, table_od_records, game_object) -> None:
         self.font = pygame_menu.font.FONT_8BIT
         self.game = game_object
         self.screen = screen
+        self.table = Table()
         self.create_custom_theme()
         self.create_menu_sound()
         self.change_menu_item_sound()
@@ -68,14 +70,15 @@ class Menu:
         self.game.play_game()
         
     def table_of_records(self):
+        self.table.load_table()
         self.create_them_for_other_window(font_size = 50, font = pygame_menu.font.FONT_MUNRO)
         self.table_scores = pygame_menu.Menu('Table of records',
                                            WIDTH,
                                            HEIGHT,
                                            theme = self.other_theme
                                            )
-        for i in self.delete_later_table_od_records:
-            self.table_scores.add.label(f"{i['Username']} : {i['Score']} : {i['Time']}",
+        for i in self.table.list_of_player.items():
+            self.table_scores.add.label(f"{i[0]} : {i[1]} points",
                                         margin = (10, 10))
         self.table_scores.add.button('Back', self.start_main_menu)
         

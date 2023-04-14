@@ -3,7 +3,7 @@ from random import choice
 import json
 import time
 
-from game.settings import *
+from game.config.settings import *
 from game.menu import Menu
 from game.player import Player
 from game.alien import *
@@ -26,10 +26,16 @@ class Game:
         self.run = True
         self.wave = 0
         self.font = pygame.font.Font(SCORE_FONT, 20)
+        self.victory_game = False
+        self.load_waves()
         
     def run_game(self):
        self.menu.start_main_menu() 
-       
+      
+    def load_waves(self):   
+       with open(PATH_FOR_WAVES_FILE, 'r') as file:
+            self.aliens_waves = json.load(file)
+            
     def backgroud_music(self):
         pygame.mixer.init()
         pygame.mixer.music.load(SOUND_FOR_GAME_BACKGROUD)
@@ -38,10 +44,9 @@ class Game:
     
        
     def aliens_setup(self):
-        with open('game/waves_controller.json', 'r') as file:
-            aliens = json.load(file)
-        
-        for i in aliens[self.wave-1][f'Wave{self.wave}']:
+        if self.wave == 2:
+            self.victory_game = True
+        for i in self.aliens_waves[self.wave-1][f'Wave{self.wave}']:
             if i[0] == 'white_alien':
                 self.aliens.add(Alien(i[1], i[2], self))
             elif i[0] == 'orange_alien': 
@@ -56,6 +61,16 @@ class Game:
                 self.aliens.add(LiveMeetAlien(i[1], i[2], self))
             elif i[0] == 'yellow_alien': 
                 self.aliens.add(BossAlien(i[1], i[2], self))
+    
+    def victory(self):
+        font = pygame.font.Font(SCORE_FONT, 15)
+        game_victory1 = font.render(f"Congratulations. You won and scored {self.player_sprite.score} points.", False, 'white')
+        game_victory2 = font.render(f"To add to the high score table, enter your name.", False, 'white')
+        game_victory_rect1 = game_victory1.get_rect(topleft = (100, 300))
+        game_victory_rect2 = game_victory2.get_rect(topleft = (100, 350))
+        self.screen.blit(self.background,(0, 0))
+        self.screen.blit(game_victory1, game_victory_rect1)
+        self.screen.blit(game_victory2, game_victory_rect2)
     
     def aliens_cheker(self):
         for alien in self.aliens.sprites():
@@ -89,16 +104,17 @@ class Game:
                 if pygame.sprite.spritecollide(alien_lasers, self.player, False):
                     alien_lasers.kill()
                     self.player_sprite.lives -= alien_lasers.hp_damage
-                    if self.player_sprite.lives <= 2:
+                    if self.player_sprite.lives <= -1000:
                         self.game_over()
-                        self.menu.menu.enable()
-                        self.menu.start_main_menu()
+                        self.restart()
+                        self.start_menu()
         
         if self.aliens:
             for alien in self.aliens:
                 if pygame.sprite.spritecollide(alien, self.player, False):
-                    self.menu.menu.enable()
-                    self.menu.start_main_menu()
+                    self.game_over()
+                    self.restart()
+                    self.start_menu()
     
     def game_over(self):
         game_over_message = self.font.render(f"You've lost! You score is {self.player_sprite.score}", False, 'white')
@@ -107,6 +123,17 @@ class Game:
         self.screen.blit(game_over_message, game_over_message_rect)
         pygame.display.update()
         time.sleep(3)
+    
+    def restart(self):
+        self.player_sprite = Player((WIDTH//2, HEIGHT), WIDTH, self.screen)
+        self.player = pygame.sprite.GroupSingle(self.player_sprite)
+        self.aliens = pygame.sprite.Group()
+        self.aliens_laser = pygame.sprite.Group()
+        self.run = True
+        self.wave = 0
+        self.victory_game = False
+        
+        self.load_waves()
     
     def aliens_shoot(self):
         alien = False
@@ -142,11 +169,19 @@ class Game:
         
     def exit(self):
         font = pygame.font.Font(SCORE_FONT, 15)
-        exit_text = font.render('Exit? Press ESC for continue, or Q for exit in main menu.', False, 'white')
+        exit_text = font.render('Exit? Press P for continue, or Q for exit in main menu.', False, 'white')
         exit_rect = exit_text.get_rect(topleft = (50, 400))
         self.screen.blit(self.background,(0, 0))
         self.screen.blit(exit_text, exit_rect)
-         
+    
+    def save_player(self):
+        self.menu.table.create_table_line(self.player_sprite.player_name, self.player_sprite.score)
+        self.menu.table.upload_table()
+    
+    def start_menu(self):
+        self.menu.menu.enable()
+        self.menu.start_main_menu()
+        
     def play_game(self):
         ALIENS_SHOOT = pygame.USEREVENT + 1
         pygame.time.set_timer(ALIENS_SHOOT, 600)
@@ -158,8 +193,15 @@ class Game:
                 if event.type == pygame.QUIT:
                     self.run = False
                     self.menu.menu.disable()
-                if event.type == ALIENS_SHOOT and not pause:
-                    self.aliens_shoot()
+                if event.type == pygame.KEYDOWN and self.victory_game:
+                    if event.key == pygame.K_v:
+                        self.save_player()
+                        self.restart()
+                        self.start_menu()
+                    if event.key == pygame.K_BACKSPACE:
+                        self.player_sprite.player_name = self.player_sprite.player_name[:-1]    
+                    else:
+                        self.player_sprite.player_name += event.unicode
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w:
                         self.waves()
@@ -168,12 +210,15 @@ class Game:
                     if event.key == pygame.K_ESCAPE and not pause:
                         pause = True
                     if event.key == pygame.K_q and pause:
-                        self.menu.menu.enable()
-                        self.menu.start_main_menu()
+                        self.start_menu()
+                        self.restart()
                         
-            self.clock.tick(FPS)
+                if event.type == ALIENS_SHOOT and not pause:
+                    self.aliens_shoot()
+                        
+                self.clock.tick(FPS)
                 
-            if not pause:
+            if not pause and not self.victory_game:
                 self.screen.blit(self.background,(0, 0))
                 self.player.sprite.weapon.draw(self.screen)
                 self.player.draw(self.screen)
@@ -195,6 +240,11 @@ class Game:
                 self.aliens_laser.draw(self.screen)
             else:
                 self.exit()
+            
+            if self.victory_game:
+                self.victory()
+                player_name = self.font.render(self.player_sprite.player_name, True, 'white')
+                self.screen.blit(player_name, (350, 400))
                 
             pygame.display.update()
         pygame.quit()

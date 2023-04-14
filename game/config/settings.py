@@ -28,6 +28,9 @@ PATH_FOR_PURPLE_ALIEN = 'game/images/sprites/speed.png'
 PATH_FOR_DARK_BLUE_ALIEN = 'game/images/sprites/low_hp_1_shoot.png'
 PATH_FOR_GREEN_ALIEN = 'game/images/sprites/live_meet.png'
 
+PATH_FOR_WAVES_FILE = 'game/config/waves_controller.json'
+PATH_FOR_TABLE = 'game/config/records_table.json'
+
 HELP_TEXT = '''There are 20 waves in the game, 
 on the 10th and 20th waves 
 there are bosses who have a lot of lives
