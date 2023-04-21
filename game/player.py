@@ -12,21 +12,21 @@ class Player(pygame.sprite.Sprite):
         self.screen = screen
         self.score = 0
         self.font = pygame.font.Font(SCORE_FONT, 20)
-        self.lives = 4
+        self.lives = 6
         self.lives_image = pygame.image.load(PATH_FOR_PLAYER).convert_alpha()
         self.lives_image = pygame.transform.scale(self.lives_image, (20, 20))
-        self.lives_image_start_draw_x = WIDTH - (self.lives_image.get_size()[0]*3 + 30)
+        self.lives_image_start_draw_x = WIDTH - (self.lives_image.get_size()[0]*5 + 30)
         
         self.border_width = border_width
         self.speed = PLAYER_SPEED
         
         self.ready_for_shoot = True
         self.shoot_time = 0
-        self.shoot_cooldown = 1
+        self.shoot_cooldown = 600
         self.weapon = pygame.sprite.Group()
         self.player_name = ''
     
-    def handle_input(self):
+    def handle_input(self, wave):
         keys = pygame.key.get_pressed()
         
         if keys[pygame.K_d]:
@@ -35,7 +35,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.x -= self.speed
         
         if keys[pygame.K_SPACE] and self.ready_for_shoot:
-            self.shoot()
+            self.shoot(wave)
             self.shoot_sound()
             self.ready_for_shoot = False
             self.shoot_time = pygame.time.get_ticks()
@@ -62,8 +62,15 @@ class Player(pygame.sprite.Sprite):
             x = self.lives_image_start_draw_x + (live*self.lives_image.get_size()[0] + 20)
             self.screen.blit(self.lives_image, (x, 20))
         
-    def shoot(self):
-        self.weapon.add(Laser(self.rect.center))
+    def shoot(self, wave):
+        if wave < 10:
+            self.weapon.add(Laser(self.rect.center))
+        elif wave >= 10 and wave < 15:
+            self.weapon.add(DoubleLaser(self.rect.center))
+            self.shoot_cooldown = DoubleLaser(self.rect.center).player_cooldown
+        elif wave >= 15:
+            self.weapon.add(HighDamageLaser(self.rect.center))
+            self.shoot_cooldown = HighDamageLaser(self.rect.center).player_cooldown
         
     def shoot_sound(self):
         pygame.mixer.init()
@@ -71,8 +78,8 @@ class Player(pygame.sprite.Sprite):
         pygame.mixer.music.set_volume(1)
         pygame.mixer.music.play()
 
-    def update(self):
-       self.handle_input() 
+    def update(self, wave):
+       self.handle_input(wave) 
        self.border()
        self.recharge()
        self.weapon.update()

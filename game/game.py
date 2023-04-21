@@ -24,7 +24,7 @@ class Game:
         
         self.background = pygame.image.load(PATH_FOR_GAME_BACKGROUND)
         self.run = True
-        self.wave = 0
+        self.wave = 10
         self.font = pygame.font.Font(SCORE_FONT, 20)
         self.victory_game = False
         self.load_waves()
@@ -44,8 +44,6 @@ class Game:
     
        
     def aliens_setup(self):
-        if self.wave == 2:
-            self.victory_game = True
         for i in self.aliens_waves[self.wave-1][f'Wave{self.wave}']:
             if i[0] == 'white_alien':
                 self.aliens.add(Alien(i[1], i[2], self))
@@ -61,6 +59,12 @@ class Game:
                 self.aliens.add(LiveMeetAlien(i[1], i[2], self))
             elif i[0] == 'yellow_alien': 
                 self.aliens.add(BossAlien(i[1], i[2], self))
+            elif i[0] == 'purple_alien': 
+                self.aliens.add(HardAlien(i[1], i[2], self))
+            elif i[0] == 'dark_blue_alien': 
+                self.aliens.add(HaardSpeedAlien(i[1], i[2], self))
+            elif i[0] == 'final_alien':
+                self.aliens.add(FinalBossAlien(i[1], i[2], self))
     
     def victory(self):
         font = pygame.font.Font(SCORE_FONT, 15)
@@ -156,11 +160,13 @@ class Game:
     def waves(self):
         if not self.aliens:
             self.wave += 1
+            if self.wave == 11 or self.wave == 16:
+                self.player_sprite.lives += 1
             self.aliens_setup()
             for i in self.aliens_laser:
                 i.kill()
             for i in self.player_sprite.weapon:
-                i.kill()
+                i.kill()  
             
     def display_waves(self):
         number_waves = self.font.render(f'WAVE {self.wave}', False, 'white')
@@ -202,7 +208,7 @@ class Game:
                         self.player_sprite.player_name = self.player_sprite.player_name[:-1]    
                     else:
                         self.player_sprite.player_name += event.unicode
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN and not self.victory_game:
                     if event.key == pygame.K_w:
                         self.waves()
                     if event.key == pygame.K_p and pause:
@@ -216,7 +222,10 @@ class Game:
                 if event.type == ALIENS_SHOOT and not pause:
                     self.aliens_shoot()
                         
-                self.clock.tick(FPS)
+            self.clock.tick(FPS)
+            
+            if self.wave == 20 and not self.aliens:
+                self.victory_game = True    
                 
             if not pause and not self.victory_game:
                 self.screen.blit(self.background,(0, 0))
@@ -236,7 +245,7 @@ class Game:
                 self.player_sprite.display_lives()
                 self.player_sprite.display_score()
 
-                self.player.update()
+                self.player.update(self.wave)
                 self.aliens_laser.draw(self.screen)
             else:
                 self.exit()

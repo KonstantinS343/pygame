@@ -51,7 +51,7 @@ class SpeedAlien(pygame.sprite.Sprite):
         super().__init__()
         self.type = 'blue_alien'
         self.score = 3
-        self.hp = 3
+        self.hp = 1
         self.direction = ALIENS_SPEED
         self.game = game_object
         self.image = pygame.image.load(PATH_FOR_BLUE_ALIEN)
