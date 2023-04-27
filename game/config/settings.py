@@ -11,6 +11,8 @@ SOUND_FOR_CHANGE_ITEM_IN_MENU = 'game/sound/choice_menu_click.mp3'
 SOUND_FOR_MAIN_MENU = 'game/sound/menu_background_sound.mp3'
 SOUND_FOR_GAME_BACKGROUD = 'game/sound/game_background_soud.mp3'
 SOUND_FOR_SHOOT = 'game/sound/shoot.mp3'
+SOUND_GAME_OVER = 'game/sound/game_over.mp3'
+SOUND_WIN = 'game/sound/win.mp3'
 SCORE_FONT = 'game/fonts/Pixeled.ttf'
 
 PATH_FOR_MENU_BACKGROUND = 'game/images/background.jpg'

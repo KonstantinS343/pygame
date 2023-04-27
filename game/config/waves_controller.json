@@ -87,9 +87,9 @@
         ["orange_alien", 300, 300], ["orange_alien", 400, 300], ["orange_alien", 500, 300]]
     },
     {
-        "Wave20":  [["final_alien", 250, 100],
-        ["green_alien", 250, 300], ["green_alien", 350, 300], ["green_alien", 450, 300],
-        ["green_alien", 150, 400], ["green_alien", 350, 400], ["green_alien", 450, 400]]
+        "Wave20":  [["final_alien", 350, 100],
+        ["green_alien", 275, 300], ["green_alien", 375, 300], ["green_alien", 475, 300],
+        ["green_alien", 300, 400], ["green_alien", 375, 400], ["green_alien", 450, 400]]
     }
 
 ]

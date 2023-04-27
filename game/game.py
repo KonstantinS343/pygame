@@ -24,7 +24,7 @@ class Game:
         
         self.background = pygame.image.load(PATH_FOR_GAME_BACKGROUND)
         self.run = True
-        self.wave = 10
+        self.wave = 19
         self.font = pygame.font.Font(SCORE_FONT, 20)
         self.victory_game = False
         self.load_waves()
@@ -36,9 +36,9 @@ class Game:
        with open(PATH_FOR_WAVES_FILE, 'r') as file:
             self.aliens_waves = json.load(file)
             
-    def backgroud_music(self):
+    def backgroud_music(self, sound):
         pygame.mixer.init()
-        pygame.mixer.music.load(SOUND_FOR_GAME_BACKGROUD)
+        pygame.mixer.music.load(sound)
         pygame.mixer.music.set_volume(0.1)
         pygame.mixer.music.play()
     
@@ -121,6 +121,7 @@ class Game:
                     self.start_menu()
     
     def game_over(self):
+        self.backgroud_music(SOUND_GAME_OVER)
         game_over_message = self.font.render(f"You've lost! You score is {self.player_sprite.score}", False, 'white')
         game_over_message_rect = game_over_message.get_rect(topleft = (200, 400))
         self.screen.blit(self.background,(0, 0))
@@ -193,7 +194,7 @@ class Game:
         pygame.time.set_timer(ALIENS_SHOOT, 600)
         self.menu.menu.disable()
         pause = False
-        self.backgroud_music()
+        self.backgroud_music(SOUND_FOR_GAME_BACKGROUD)
         while self.run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -222,10 +223,11 @@ class Game:
                 if event.type == ALIENS_SHOOT and not pause:
                     self.aliens_shoot()
                         
-            self.clock.tick(FPS)
+                self.clock.tick(FPS)
             
-            if self.wave == 20 and not self.aliens:
-                self.victory_game = True    
+            if self.wave == 20 and not self.aliens and not self.victory_game:
+                self.backgroud_music(SOUND_WIN)
+                self.victory_game = True
                 
             if not pause and not self.victory_game:
                 self.screen.blit(self.background,(0, 0))

@@ -75,7 +75,7 @@ class DoubleLaser(pygame.sprite.Sprite):
         self.image = pygame.Surface((4, 15))
         self.image.fill('green')
         self.hp_damage = 1
-        self.player_cooldown = 300
+        self.player_cooldown = 1
         self.rect = self.image.get_rect(center = position)
         
         if not speed:
@@ -103,7 +103,7 @@ class HighDamageLaser(pygame.sprite.Sprite):
         self.image = pygame.Surface((4, 15))
         self.image.fill('blue')
         self.hp_damage = 2
-        self.player_cooldown = 200
+        self.player_cooldown = 1
         self.rect = self.image.get_rect(center = position)
         
         if not speed:
